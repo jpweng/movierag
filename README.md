@@ -43,6 +43,7 @@ parse 0.8s | retrieve 0.1s | discover 1.2s | generate 4.0s | total 6.1s
 
 | Path | What |
 |---|---|
+| `notebooks/final_submission.ipynb` | **start here**: the whole project in one executed notebook, with results and discussion |
 | `notebooks/01_bookmarks_to_catalogue.ipynb` | reels → enriched catalogue (TMDb, IMDb ratings) |
 | `notebooks/02_embeddings_and_search.ipynb` | embeddings, vector vs BM25, RRF hybrid, reranking, filters |
 | `notebooks/03_ask_for_movies.ipynb` | 4-bit Qwen, self-query parsing, discovery, grounded answers |
