@@ -1,0 +1,59 @@
+[project]
+name = "movierag"
+version = "0.1.0"
+description = "RAG over my saved movie reels: what should I watch tonight?"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    # model runtime (same family as the workshop notebooks)
+    "torch>=2.7",                      # 2.7+ = first builds for Blackwell GPUs (CUDA 12.8)
+    "transformers>=4.57,<6",
+    "accelerate>=1.10",
+    "bitsandbytes>=0.46",              # 4-bit quantization so a 4B model fits in 8 GB
+    "sentence-transformers>=5.0",      # embeddings + cross-encoder reranker
+    # RAG framework
+    "llama-index-core>=0.14,<0.15",
+    "llama-index-llms-huggingface>=0.8",
+    "llama-index-embeddings-huggingface>=0.8",
+    "llama-index-vector-stores-chroma>=0.6",
+    "llama-index-retrievers-bm25>=0.8",
+    "llama-index-llms-ollama>=0.11",
+    "llama-index-llms-openai-like>=0.8",
+    "chromadb>=1.0",
+    # plumbing
+    "requests>=2.32",
+    "python-dotenv>=1.0",
+    "pydantic>=2.8",
+    "pandas>=2.2",
+    "ipykernel>=6.29",
+]
+
+[project.optional-dependencies]
+tracing = ["arize-phoenix>=11", "openinference-instrumentation-llama-index>=4"]
+modal = ["modal>=1.0"]
+dev = ["pytest>=8"]
+
+# PyTorch with CUDA comes from PyTorch's own index, not PyPI.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["movierag"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "tests"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+    "ipywidgets>=8.1.9",
+]
